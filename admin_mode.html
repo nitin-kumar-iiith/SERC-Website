@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Admin Control Page</h2>
+
+<button type="button" id="enable" onclick="enable_admin()">Enable Admin</button>
+<button type="button" id="disable" onclick="disbaleadmin()" style="display: none;">Disable Admin</button>
+<button type="button" id="revoke_access" onclick="revoke_acces()" style="display: none;">Revoke Access</button>
+<button type="button" id="grant_access" onclick="grant_acces()" style="display: none;">Grant Access</button>
+
+<p id="demo"></p>
+<script type="text/javascript">
+var admins=0;
+var person = prompt("Please enter password(Hint:admin)");
+if (person == "admin") {
+	document.getElementsByTagName("body")[0].style.display = "block";
+}
+else{
+	document.getElementsByTagName("body")[0].style.display = "none";
+	alert("wrong password,refresh page to try again");
+}
+function enable_admin() {admins=1;hide_enable_button();show_revoke_button();}
+function disbaleadmin() {admins=0;hide_disable_button();hide_revoke_button();hide_grant_button();}
+function hide_disable_button() {
+	document.getElementById("disable").style.display = "none";
+	document.getElementById("enable").style.display = "block";
+}
+function hide_revoke_button() {
+	document.getElementById("revoke_access").style.display = "none";
+}
+function show_revoke_button() {
+	document.getElementById("revoke_access").style.display = "block";
+}
+function hide_grant_button() {
+	document.getElementById("grant_access").style.display = "none";
+}
+function show_grant_button() {
+	document.getElementById("grant_access").style.display = "block";
+}
+function hide_enable_button() {
+	document.getElementById("disable").style.display = "block";
+	document.getElementById("enable").style.display = "none";
+}	
+function revoke_acces() {
+	if(typeof(Storage) !== "undefined") {
+		localStorage.display_all=0;//1 means visible
+      	console.log(localStorage.display_all);
+      	show_grant_button();hide_grant_button();
+      	alert("user now cannot see the contents from About the Center,Focus Area,Student/Faculty/Alumni,Resources and Contact,Publications,News/Updates");
+      	hide_revoke_button();show_grant_button();
+  	} 
+  	else {
+    	document.getElementsByTagName("body")[0].innerHTML = "Sorry, your browser does not support web storage...";
+  	}
+}
+function grant_acces() {
+	if(typeof(Storage) !== "undefined") {
+		if(admins==1){
+			localStorage.display_all=1;//1 means visible
+      		console.log(localStorage.display_all);
+      		alert("user now see the contents from About the Center,Focus Area,Student/Faculty/Alumni,Resources and Contact,Publications,News/Updates");
+      		show_revoke_button();hide_grant_button();
+		}
+  	} 
+  	else {
+    	document.getElementsByTagName("body")[0].innerHTML = "Sorry, your browser does not support web storage...";
+  	}
+}
+</script>
+</body>
+</html> 
